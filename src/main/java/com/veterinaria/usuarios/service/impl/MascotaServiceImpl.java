@@ -4,7 +4,7 @@ import com.veterinaria.usuarios.dto.MascotaDTO;
 import com.veterinaria.usuarios.model.Mascota;
 import com.veterinaria.usuarios.model.Propietario;
 import com.veterinaria.usuarios.repository.MascotaRepository;
-import com.veterinaria.usuarios.repository.UsuarioRepository;
+import com.veterinaria.usuarios.repository.PropietarioRepository;
 import com.veterinaria.usuarios.service.MascotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 public class MascotaServiceImpl implements MascotaService {
 
     private final MascotaRepository mascotaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final PropietarioRepository propietarioRepository;
 
     @Autowired
-    public MascotaServiceImpl(MascotaRepository mascotaRepository, UsuarioRepository usuarioRepository) {
+    public MascotaServiceImpl(MascotaRepository mascotaRepository, PropietarioRepository propietarioRepository) {
         this.mascotaRepository = mascotaRepository;
-        this.usuarioRepository = usuarioRepository;
+        this.propietarioRepository = propietarioRepository;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MascotaServiceImpl implements MascotaService {
 
     @Override
     public List<MascotaDTO> findByPropietarioId(String propietarioId) {
-        if (!usuarioRepository.existsById(propietarioId)) {
+        if (!propietarioRepository.existsById(propietarioId)) {
             throw new RuntimeException("Propietario no encontrado con ID: " + propietarioId);
         }
 
@@ -52,7 +52,7 @@ public class MascotaServiceImpl implements MascotaService {
     @Override
     public MascotaDTO save(MascotaDTO mascotaDTO) {
         String propietarioId = mascotaDTO.getPropietarioId();
-        Propietario propietario = usuarioRepository.findById(propietarioId)
+        Propietario propietario = propietarioRepository.findById(propietarioId)
                 .orElseThrow(() -> new RuntimeException("Propietario no encontrado con ID: " + propietarioId));
 
         Mascota mascota = convertToEntity(mascotaDTO);
@@ -60,7 +60,7 @@ public class MascotaServiceImpl implements MascotaService {
 
         // Actualizar la relación en el usuario
         propietario.addMascota(mascota);
-        usuarioRepository.save(propietario);
+        propietarioRepository.save(propietario);
 
         return convertToDTO(mascota);
     }
@@ -87,11 +87,11 @@ public class MascotaServiceImpl implements MascotaService {
         Mascota mascota = mascotaRepository.findById(id).orElseThrow();
         String propietarioId = mascota.getPropietarioId();
 
-        Optional<Propietario> propietarioOpt = usuarioRepository.findById(propietarioId);
+        Optional<Propietario> propietarioOpt = propietarioRepository.findById(propietarioId);
         if (propietarioOpt.isPresent()) {
             Propietario propietario = propietarioOpt.get();
             propietario.removeMascota(mascota);
-            usuarioRepository.save(propietario);
+            propietarioRepository.save(propietario);
         }
 
         mascotaRepository.deleteById(id);

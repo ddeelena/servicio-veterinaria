@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class UsuarioDTO {
+public class PropietarioDTO {
     private String id;
 
     @NotBlank(message = "El nombre es obligatorio")

@@ -4,7 +4,6 @@ import com.veterinaria.usuarios.model.User;
 import com.veterinaria.usuarios.repository.UserRepository;
 import com.veterinaria.usuarios.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Set;
 import java.util.Optional;
@@ -15,14 +14,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public User createUser(String username, String password, Set<String> roles) {
         User user = new User();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
         user.setRoles(roles);
         user.setEnabled(true);
         return userRepository.save(user);
@@ -42,10 +39,8 @@ public class UserServiceImpl implements UserService {
     public User updateUser(String id, User user) {
         if (userRepository.existsById(id)) {
             user.setId(id);
-            // Si se está actualizando la contraseña, encriptarla
-            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-            }
+
+
             return userRepository.save(user);
         }
         return null;

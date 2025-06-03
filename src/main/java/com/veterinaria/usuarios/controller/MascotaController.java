@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,13 +22,12 @@ public class MascotaController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<MascotaDTO>> findAll() {
         return ResponseEntity.ok(mascotaService.findAll());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.isMascotaOwner(#id)")
+
     public ResponseEntity<MascotaDTO> findById(@PathVariable String id) {
         return mascotaService.findById(id)
                 .map(ResponseEntity::ok)
@@ -37,13 +35,11 @@ public class MascotaController {
     }
 
     @GetMapping("/propietario/{propietarioId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.isOwner(#propietarioId)")
     public ResponseEntity<List<MascotaDTO>> findByPropietarioId(@PathVariable String propietarioId) {
         return ResponseEntity.ok(mascotaService.findByPropietarioId(propietarioId));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.isOwner(#mascotaDTO.propietarioId)")
     public ResponseEntity<MascotaDTO> save(@Valid @RequestBody MascotaDTO mascotaDTO) {
         if (mascotaDTO.getId() != null) {
             return ResponseEntity.badRequest().build();
@@ -58,7 +54,6 @@ public class MascotaController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.isMascotaOwner(#id)")
     public ResponseEntity<MascotaDTO> update(@PathVariable String id, @Valid @RequestBody MascotaDTO mascotaDTO) {
         try {
             MascotaDTO updated = mascotaService.update(id, mascotaDTO);
@@ -69,7 +64,6 @@ public class MascotaController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.isMascotaOwner(#id)")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         try {
             mascotaService.deleteById(id);
