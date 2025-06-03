@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "mascotas")
 @Data
@@ -37,4 +40,23 @@ public class Mascota {
     private String observaciones;
 
     private String propietarioId;
+
+    // Array de historial médico
+    private List<HistorialMedico> historialMedico = new ArrayList<>();
+
+    // Clase interna para el historial médico
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class HistorialMedico {
+        private String id;
+        private LocalDateTime fecha;
+        private String diagnostico;
+        private String tratamiento;
+        private String observaciones;
+        private Double peso;
+        private Double temperatura;
+        private String veterinarioId;
+        private String nombreVeterinario;
+    }
 }
