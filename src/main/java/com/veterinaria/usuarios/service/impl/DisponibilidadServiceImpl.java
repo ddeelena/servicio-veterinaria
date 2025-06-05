@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,11 +64,37 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
 
     @Override
     public boolean isVeterinarioDisponible(String veterinarioId, LocalDate fecha, LocalTime hora) {
-        return false;
+        try {
+            DayOfWeek diaSemana = fecha.getDayOfWeek();
+
+            List<Disponibilidad> disponibilidades = disponibilidadRepository
+                    .findByVeterinarioIdAndDiaSemanaAndActivoTrue(veterinarioId, diaSemana.getValue());
+
+            if (disponibilidades.isEmpty()) {
+                return false;
+            }
+
+            for (Disponibilidad disponibilidad : disponibilidades) {
+                LocalTime horaInicio = disponibilidad.getHoraInicio();
+                LocalTime horaFin = disponibilidad.getHoraFin();
+
+                if (!hora.isBefore(horaInicio) && hora.isBefore(horaFin)) {
+
+                    return true;
+                }
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public List<Disponibilidad> getDisponibilidadesPorDia(String veterinarioId, LocalDate fecha) {
-        return null;
+        DayOfWeek diaSemana = fecha.getDayOfWeek();
+        return disponibilidadRepository
+                .findByVeterinarioIdAndDiaSemanaAndActivoTrue(veterinarioId, diaSemana.getValue());
     }
 }
