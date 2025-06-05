@@ -5,6 +5,9 @@ import com.veterinaria.usuarios.repository.DisponibilidadRepository;
 import com.veterinaria.usuarios.service.DisponibilidadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +59,15 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
     @Override
     public boolean existsById(String id) {
         return disponibilidadRepository.existsById(id);
+    }
+
+    @Override
+    public boolean isVeterinarioDisponible(String veterinarioId, LocalDate fecha, LocalTime hora) {
+        return false;
+    }
+
+    @Override
+    public List<Disponibilidad> getDisponibilidadesPorDia(String veterinarioId, LocalDate fecha) {
+        return null;
     }
 }

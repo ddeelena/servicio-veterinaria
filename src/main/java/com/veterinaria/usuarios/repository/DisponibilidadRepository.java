@@ -9,4 +9,6 @@ import java.util.List;
 public interface DisponibilidadRepository extends MongoRepository<Disponibilidad, String> {
     List<Disponibilidad> findByVeterinarioId(String veterinarioId);
     List<Disponibilidad> findByVeterinarioIdAndActivoTrue(String veterinarioId);
+    List<Disponibilidad> findByVeterinarioIdAndDiaSemanaAndActivoTrue(String veterinarioId, Integer diaSemana);
+
 }
