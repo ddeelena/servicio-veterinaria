@@ -25,6 +25,9 @@ public interface PropietarioService {
 
     Optional<Propietario> buscarPorEmail(String email);
 
+    String buscarPropietarioPorMascotaId(String id);
+    String buscarEmailPorMascotaId(String id);
+
     Optional<Propietario> buscarPorTelefono(String telefono);
 
     Propietario actualizarPropietario(String id, Propietario propietario);

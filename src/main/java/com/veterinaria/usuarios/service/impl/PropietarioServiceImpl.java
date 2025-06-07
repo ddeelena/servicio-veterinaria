@@ -74,7 +74,7 @@ public class PropietarioServiceImpl implements PropietarioService {
 
     @Override
     public Propietario crearPropietario(Propietario propietario) {
-        return null;
+        return propietarioRepository.save(propietario);
     }
 
     @Override
@@ -125,6 +125,34 @@ public class PropietarioServiceImpl implements PropietarioService {
     @Override
     public boolean existePorEmail(String email) {
         return false;
+    }
+
+    @Override
+    public String buscarPropietarioPorMascotaId(String id){
+        return propietarioRepository.findIdByMascotasId(id);
+    }
+
+    @Override
+    public String buscarEmailPorMascotaId(String idMascota){
+        try {
+            System.out.println("Buscando propietario para mascota ID: " + idMascota);
+
+            Optional<Propietario> propietario = propietarioRepository.findByMascotaId(idMascota);
+
+            if (propietario.isPresent()) {
+                String email = propietario.get().getEmail();
+                System.out.println("Email encontrado: " + email);
+                return email;
+            } else {
+                System.out.println("No se encontró propietario para la mascota: " + idMascota);
+                return null;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error al buscar email: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

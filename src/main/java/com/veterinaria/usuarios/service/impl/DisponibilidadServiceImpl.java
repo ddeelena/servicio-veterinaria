@@ -66,9 +66,11 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
     public boolean isVeterinarioDisponible(String veterinarioId, LocalDate fecha, LocalTime hora) {
         try {
             DayOfWeek diaSemana = fecha.getDayOfWeek();
-
+            //String diaSemana = Integer.toString(fecha.getDayOfWeek().getValue());
+            System.out.println(diaSemana);
             List<Disponibilidad> disponibilidades = disponibilidadRepository
-                    .findByVeterinarioIdAndDiaSemanaAndActivoTrue(veterinarioId, diaSemana.getValue());
+                    .findByVeterinarioIdAndDiaSemanaAndActivoTrue(veterinarioId, diaSemana);
+            System.out.println(disponibilidades);
 
             if (disponibilidades.isEmpty()) {
                 return false;
@@ -77,6 +79,10 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
             for (Disponibilidad disponibilidad : disponibilidades) {
                 LocalTime horaInicio = disponibilidad.getHoraInicio();
                 LocalTime horaFin = disponibilidad.getHoraFin();
+
+                System.out.println("Hora Inicio: " + disponibilidad.getHoraInicio());
+                System.out.println("Hora Fin: " + disponibilidad.getHoraFin());
+                System.out.println("Hora consulta: " + hora);
 
                 if (!hora.isBefore(horaInicio) && hora.isBefore(horaFin)) {
 
@@ -87,6 +93,7 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
             return false;
 
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -94,7 +101,8 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
     @Override
     public List<Disponibilidad> getDisponibilidadesPorDia(String veterinarioId, LocalDate fecha) {
         DayOfWeek diaSemana = fecha.getDayOfWeek();
+        //String diaSemanaString = Integer.toString(diaSemana.getValue());
         return disponibilidadRepository
-                .findByVeterinarioIdAndDiaSemanaAndActivoTrue(veterinarioId, diaSemana.getValue());
+                .findByVeterinarioIdAndDiaSemanaAndActivoTrue(veterinarioId, diaSemana);
     }
 }

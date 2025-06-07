@@ -89,6 +89,19 @@ public class PropietarioController {
         }
     }
 
+    @GetMapping("/buscarEmail/id/{id}")
+    public ResponseEntity<String> obtenerEmail(@PathVariable String id) {
+        return propietarioService.findById(id)
+                .map(propietario -> ResponseEntity.ok(propietario.getEmail()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/buscarEmail/idMascota/{idMascota}")
+    public String obtenerMascotaPorId(@PathVariable String idMascota) {
+        return propietarioService.buscarEmailPorMascotaId(idMascota);
+    }
+
+
     // READ - Buscar propietarios por teléfono
     @GetMapping("/buscar/telefono/{telefono}")
     public ResponseEntity<?> buscarPorTelefono(@PathVariable String telefono) {
