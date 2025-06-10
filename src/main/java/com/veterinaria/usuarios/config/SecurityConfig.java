@@ -52,10 +52,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
                         // Rutas para veterinarios
-                        .requestMatchers("/api/veterinarios/**").hasAnyRole("VETERINARIO", "ADMIN")
+                        .requestMatchers("/api/veterinarios/**").hasAnyRole( "ADMIN")
 
                         // Rutas para propietarios
                         .requestMatchers("/api/propietarios/**").hasAnyRole("PROPIETARIO", "ADMIN")
+
+                        .requestMatchers("/api/disponibilidad/**").hasAnyRole( "ADMIN", "VETERINARIO")
 
                         // Todas las demás rutas requieren autenticación
                         .anyRequest().authenticated()
