@@ -23,7 +23,8 @@ public class AuthenticationFilter implements GatewayFilter {
     List<String> publicPaths = List.of(
             "/api/auth/login",
             "/api/auth/register",
-            "/api/productos/lista"
+            "/api/tienda/productos",
+            "/api/tienda/productos/{idProductos}"
     );
 
     public AuthenticationFilter(JwtUtil jwtUtil, AuthorizationRules authorizationRules) {

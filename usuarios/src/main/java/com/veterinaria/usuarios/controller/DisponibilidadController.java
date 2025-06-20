@@ -115,13 +115,13 @@ public class DisponibilidadController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Disponibilidad> createDisponibilidad(@Valid @RequestBody Disponibilidad disponibilidad) {
         Disponibilidad saved = disponibilidadService.save(disponibilidad);
         return ResponseEntity.ok(saved);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Disponibilidad> updateDisponibilidad(
             @PathVariable String id,
             @Valid @RequestBody Disponibilidad disponibilidad) {
@@ -132,7 +132,7 @@ public class DisponibilidadController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteDisponibilidad(@PathVariable String id) {
         disponibilidadService.deleteById(id);
         return ResponseEntity.noContent().build();

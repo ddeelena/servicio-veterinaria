@@ -36,7 +36,7 @@ public class PropietarioController {
     }
 
     // READ - Obtener todos los propietarios
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Propietario>> obtenerTodosLosPropietarios() {
         try {
             List<Propietario> propietarios = propietarioService.obtenerTodosLosPropietarios();
@@ -106,7 +106,7 @@ public class PropietarioController {
     }
 
     // UPDATE - Actualizar propietario completo
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> actualizarPropietario(@PathVariable String id,
                                                    @Valid @RequestBody Propietario propietario) {
         try {
@@ -142,7 +142,7 @@ public class PropietarioController {
     }
 
     // DELETE - Eliminar propietario
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> eliminarPropietario(@PathVariable String id) {
         try {
             boolean eliminado = propietarioService.eliminarPropietario(id);

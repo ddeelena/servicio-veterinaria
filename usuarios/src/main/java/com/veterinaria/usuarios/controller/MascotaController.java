@@ -29,7 +29,6 @@ public class MascotaController {
     }
 
     @GetMapping("/{id}")
-
     public ResponseEntity<MascotaDTO> findById(@PathVariable String id) {
         return mascotaService.findById(id)
                 .map(ResponseEntity::ok)
@@ -55,7 +54,7 @@ public class MascotaController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<MascotaDTO> update(@PathVariable String id, @Valid @RequestBody MascotaDTO mascotaDTO) {
         try {
             MascotaDTO updated = mascotaService.update(id, mascotaDTO);
@@ -65,7 +64,7 @@ public class MascotaController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         try {
             mascotaService.deleteById(id);

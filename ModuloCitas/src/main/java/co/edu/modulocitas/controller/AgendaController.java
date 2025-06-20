@@ -76,8 +76,4 @@ public class AgendaController {
         return agendaService.consultarCitaPorPaciente(idPaciente);
     }
 
-
 }
-
-
-//yaaaa

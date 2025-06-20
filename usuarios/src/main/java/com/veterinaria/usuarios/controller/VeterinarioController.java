@@ -47,7 +47,7 @@ public class VeterinarioController {
         return ResponseEntity.ok(saved);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Veterinario> updateVeterinario(
             @PathVariable String id,
             @Valid @RequestBody Veterinario veterinario) {
@@ -58,13 +58,13 @@ public class VeterinarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteVeterinario(@PathVariable String id) {
         veterinarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/nombre/{id}")
+    @GetMapping("/nombre/id/{id}")
     public ResponseEntity<String> getNombreVeterinariosById(@PathVariable String id) {
         Optional<Veterinario> veterinario = veterinarioService.findById(id);
         if (veterinario.isPresent()) {
