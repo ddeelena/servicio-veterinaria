@@ -60,8 +60,20 @@ public class AuthorizationRules {
     }
 
     public boolean isAccessAllowed(String path, String role) {
+        if (role == null || role.isEmpty()) {
+            return false;
+        }
+
         return roleRules.entrySet().stream()
                 .filter(entry -> path.startsWith(entry.getKey()))
-                .anyMatch(entry -> entry.getValue().contains(role));
+                .anyMatch(entry -> entry.getValue().contains(role.toLowerCase()));
+    }
+
+    public List<String> getAllowedRoles(String path) {
+        return roleRules.entrySet().stream()
+                .filter(entry -> path.startsWith(entry.getKey()))
+                .findFirst()
+                .map(Map.Entry::getValue)
+                .orElse(List.of());
     }
 }

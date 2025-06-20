@@ -46,6 +46,10 @@ public class SecurityConfig {
                         // Rutas públicas
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/api/disponibilidades/verificar/**").permitAll()
+                        .requestMatchers("/api/veterinarios/nombre/**").permitAll()
+                        .requestMatchers("/api/mascotas/nombre/**").permitAll()
+                        .requestMatchers("/api/usuarios/buscarEmail/idMascota/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
                         // Rutas para administradores
